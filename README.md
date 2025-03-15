@@ -130,3 +130,35 @@ After executing all five stages for an instruction, the PC is updated based on i
 
 After PC update, all control flags and temporary registers are reset for the next instruction cycle.
 
+## Pipelined MIPS Processor
+
+The pipelined processor is largely similar to the non-pipelined version, except for some modifications to enable pipelining. These modifications include:
+
+### Pipelined Registers
+These registers store information as an instruction moves from one pipeline stage to another. The contents of these registers are:
+
+- **IF/ID Pipeline Register**: Stores the Program Counter (PC) and the fetched instruction.
+- **ID/EX Pipeline Register**: Stores control signals, such as the destination register, ALU operation, instruction type, memory access, and write-back requirements. Additionally, it holds the PC, `rs`, `rt`, `rd`, immediate value, and shift amount.
+- **EX/MEM Pipeline Register**: Contains control signals, branch flag, ALU result, and relevant data from the ID/EX pipeline register.
+- **MEM/WB Pipeline Register**: Holds control signals, data to be loaded from memory to registers, and the destination register.
+
+### Hazard Detection
+- Structural hazards are handled by introducing stalls. A stall is implemented as an empty instruction by clearing all control signals while retaining the same program counter value. This ensures no unintended execution while consuming a clock cycle.
+
+### Forwarding Unit
+To minimize stalls, a forwarding unit is introduced, which allows values from previous stages to be forwarded to subsequent ones. There are three cases:
+
+1. **Case 1: R-type instruction followed by an R-type instruction**  
+   - If there is a dependency between the two (i.e., the destination register of the first is a source for the second), the ALU result from the EX stage is forwarded to the next EX stage.
+
+2. **Case 2: I-type instruction followed by an R-type instruction with dependency**  
+   - The `rt` value of the I-type instruction is forwarded from the MEM stage to the EX stage for use in the R-type instruction.
+
+3. **Case 3: Dependency across multiple instructions**  
+   - An I-type instruction followed by two R-type instructions, all with dependencies. Forwarding occurs twice: from EX to EX and from WB to EX.
+
+### Flushing
+- When a branch instruction is encountered, the IF and ID stages are flushed to remove incorrect instructions from the pipeline. The correct instruction is fetched in the next cycle. Flushing is implemented by skipping the IF and ID stages for that cycle.
+
+---
+This pipeline implementation improves efficiency by handling hazards and minimizing stalls while maintaining correct execution flow.
