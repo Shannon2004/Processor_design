@@ -168,8 +168,8 @@ Follow these steps to run the non-pipelined and pipelined versions of the MIPS p
 
 ### Step 1: Clone the Repository
 ```bash
-git clone <repository_url>
-cd <repository_name>
+git clone https://github.com/Shannon2004/Processor_design.git
+cd <Processor_design>
 ```
 Ensure that `sorting_machine_code.txt` and `factorial_machine_code.txt` are in the same folder as the Python files.
 
@@ -188,6 +188,4 @@ After running the script, enter:
 - **1** for Sorting
 - **2** for Factorial
 
----
-This pipeline implementation improves efficiency by handling hazards and minimizing stalls while maintaining correct execution flow.
 
