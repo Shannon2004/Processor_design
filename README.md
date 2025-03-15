@@ -160,5 +160,34 @@ To minimize stalls, a forwarding unit is introduced, which allows values from pr
 ### Flushing
 - When a branch instruction is encountered, the IF and ID stages are flushed to remove incorrect instructions from the pipeline. The correct instruction is fetched in the next cycle. Flushing is implemented by skipping the IF and ID stages for that cycle.
 
+This pipeline implementation improves efficiency by handling hazards and minimizing stalls while maintaining correct execution flow.
+
+## Running the Code
+
+Follow these steps to run the non-pipelined and pipelined versions of the MIPS processor:
+
+### Step 1: Clone the Repository
+```bash
+git clone <repository_url>
+cd <repository_name>
+```
+Ensure that `sorting_machine_code.txt` and `factorial_machine_code.txt` are in the same folder as the Python files.
+
+### Step 2: Run the Processor
+- For the **non-pipelined processor**, run:
+  ```bash
+  python3 non_pipelined_processor.py
+  ```
+- For the **pipelined processor**, run:
+  ```bash
+  python3 mips_pipeline.py
+  ```
+
+### Step 3: Select the Operation
+After running the script, enter:
+- **1** for Sorting
+- **2** for Factorial
+
 ---
 This pipeline implementation improves efficiency by handling hazards and minimizing stalls while maintaining correct execution flow.
+
